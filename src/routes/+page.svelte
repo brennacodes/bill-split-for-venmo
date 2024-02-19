@@ -36,9 +36,16 @@
 
 
   function copyToClipboard(event) {
-    navigator.clipboard.writeText(event.target.value);
-    copied = true;
-    tooltip = 'Copied!';
+    navigator.clipboard.writeText(event.target.value)
+      .then(() => {
+        copied = true;
+        tooltip = 'Copied!';
+      })
+      .catch(() => {
+        copied = false;
+        tooltip = 'Failed to Copy Text';
+      });
+
   }
 
   $: persons = [];
