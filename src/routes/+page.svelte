@@ -43,15 +43,16 @@
                   if (permission.state === "granted" || permission.state === "prompt") {
                       navigator.clipboard.write(data)
                         .then (() => {
-                          resolve();
+                          alert('Copied to clipboard');
                           copied = true;
                           tooltip = 'Copied!';
+                          resolve();
                         })
                         .catch((e) => {
-                          reject(e);
                           console.log(e);
                           copied = false;
                           tooltip = 'Failed to Copy Text';
+                          reject(e);
                         });
                   }
                   else {
@@ -84,6 +85,7 @@
           //     }
           // }
           else {
+              alert("Error: ", e);
               reject(new Error("None of copying methods are supported by this browser!"));
           }
       });
@@ -91,16 +93,11 @@
   }
 
   function copyToClipboard(event) {
-    copy(event.target.value)
-      .then(() => {
-        copied = true;
-        tooltip = 'Copied!';
-      })
-      .catch(() => {
-        copied = false;
-        tooltip = 'Failed to Copy Text';
-      });
-
+    copy(output).then(() => {
+      alert('Copied to clipboard');
+    }).catch((e) => {
+      alert("Error: ", e);
+    });
   }
 
   $: persons = [];
