@@ -43,16 +43,17 @@
                   if (permission.state === "granted" || permission.state === "prompt") {
                       navigator.clipboard.write(data)
                         .then (() => {
-                          alert('Copied to clipboard');
+                          // alert('Copied to clipboard');
                           copied = true;
                           tooltip = 'Copied!';
                           resolve();
                         })
                         .catch((e) => {
-                          console.log(e);
                           copied = false;
                           tooltip = 'Failed to Copy Text';
                           reject(e);
+                          alert("Error: ", e);
+                          console.log(e);
                         });
                   }
                   else {
@@ -93,11 +94,7 @@
   }
 
   function copyToClipboard(event) {
-    copy(output).then(() => {
-      alert('Copied to clipboard');
-    }).catch((e) => {
-      alert("Error: ", e);
-    });
+    copy(output);
   }
 
   $: persons = [];
