@@ -25,11 +25,8 @@
     const formattedFromDate = new Date(fromDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const formattedThroughDate = new Date(throughDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     output = `${bill} ${formattedFromDate} - ${formattedThroughDate}`;
-    // return output;
   }
   $: if(fromDate !== null && throughDate !== null) {
-    console.log('fromDate: ', fromDate)
-    console.log('throughDate: ', throughDate)
     generateOutput();
   }
 
@@ -55,29 +52,18 @@
   }
 
   function updatePersonPercent(percentage, i) {
-    console.log('i: ', i)
     persons[i]['percentage'] = percentage;
-    console.log('percentage: ', percentage)
     percentLeft -= percentage;
-    console.log('percentLeft: ', percentLeft)
 
     let amount = (billTotal * (percentage / 100));
-    console.log('amount: ', amount)
     persons[i]['amount'] = amount;
     totalTallied += amount;
-    console.log('totalTallied: ', totalTallied)
-    console.log('persons[i]: ', persons[i])
-    console.log('persons: ', persons)
-    // totalTallied = persons.reduce((acc, person) => acc + person['amount'].toFixed(2), 0);
   }
 
   function updateSplitType() {
     checked = checked === undefined ? 'checked' : undefined;
-    console.log('update to checked: ', checked)
     isEvenSplit = checked === 'checked';
-    console.log('isEvenSplit: ', isEvenSplit)
     splitType = isEvenSplit ? 'Even' : 'Uneven' ;
-    console.log('splitType: ', splitType)
     personPercent();
   }
 </script>
