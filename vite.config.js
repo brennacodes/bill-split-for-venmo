@@ -19,7 +19,8 @@ export default defineConfig({
       fs: {
         allow: [
           searchForWorkspaceRoot(process.cwd()),
-          'src/**/*.{js,svelte,json,css,html}'
+          'src/**/*.{js,svelte,json,css,html}',
+          'src/global.css'
         ]
       }
     }
