@@ -41,56 +41,35 @@
               const data = [new ClipboardItem({ [type]: blob })];
               navigator.permissions.query({name: "clipboard-write"}).then((permission) => {
                   if (permission.state === "granted" || permission.state === "prompt") {
-                      navigator.clipboard.write(data)
-                        .then (() => {
-                          // alert('Copied to clipboard');
-                          copied = true;
-                          tooltip = 'Copied!';
-                          resolve();
-                        })
-                        .catch((e) => {
-                          copied = false;
-                          tooltip = 'Failed to Copy Text';
-                          reject(e);
-                          alert("Error: ", e);
-                          console.log(e);
-                        });
+                      navigator.clipboard.write(data).then(resolve).catch(reject);
+                        // .then (() => {
+                        //   // alert('Copied to clipboard');
+                        //   copied = true;
+                        //   tooltip = 'Copied!';
+                        //   resolve();
+                        // })
+                        // .catch((e) => {
+                        //   copied = false;
+                        //   tooltip = 'Failed to Copy Text';
+                        //   reject(e);
+                        //   alert("Error: ", e);
+                        //   console.log(e);
+                        // });
                   }
                   else {
                       reject(new Error("Copy permission not granted!"));
                   }
               });
+              if (navigator.clipboard.readText() === output) {
+                copied = true;
+                tooltip = 'Copied!';
+              }
           }
-          // else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
-          //     var textarea = document.createElement("textarea");
-          //     textarea.textContent = text;
-          //     textarea.style.position = "fixed";
-          //     textarea.style.width = '2em';
-          //     textarea.style.height = '2em';
-          //     textarea.style.padding = 0;
-          //     textarea.style.border = 'none';
-          //     textarea.style.outline = 'none';
-          //     textarea.style.boxShadow = 'none';
-          //     textarea.style.background = 'transparent';
-          //     document.body.appendChild(textarea);
-          //     textarea.focus();
-          //     textarea.select();
-          //     try {
-          //         document.execCommand("copy");
-          //         document.body.removeChild(textarea);
-          //         resolve();
-          //     }
-          //     catch (e) {
-          //         document.body.removeChild(textarea);
-          //         reject(e);
-          //     }
-          // }
           else {
               alert("Error: ", e);
               reject(new Error("None of copying methods are supported by this browser!"));
           }
       });
-
   }
 
   function copyToClipboard(event) {
