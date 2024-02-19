@@ -163,5 +163,7 @@
 </div>
 
 <style>
-  /* Add styling here */
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
 </style>
