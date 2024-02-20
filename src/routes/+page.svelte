@@ -60,9 +60,14 @@
   }
 
   function updateSplitType() {
-    checked = checked === undefined ? 'checked' : undefined;
+    console.log("********Updating Split Type!*********")
+    console.log('checked == "": ', checked == '');
+    checked = (checked == '') ? 'checked' : '';
     isEvenSplit = checked === 'checked';
-    splitType = isEvenSplit ? 'Even' : 'Uneven' ;
+    splitType = isEvenSplit ? 'Even' : 'Uneven';
+    console.log('splitType: ', splitType);
+    console.log('isEvenSplit: ', isEvenSplit);
+    console.log('checked: ', checked);
     personPercent();
   }
 </script>
