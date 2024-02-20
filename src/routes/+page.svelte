@@ -67,8 +67,8 @@
   }
 </script>
 
-<div class="prose">
-  <h1 class="m-4 text-center">Split! The! Bill!</h1>
+<div class="container mx-auto prose">
+  <h1 class="mx-4 my-8 text-center">Split! The! Bill!</h1>
 
   <div class="flex flex-col items-center gap-2">
     <div class="label flex-col">
