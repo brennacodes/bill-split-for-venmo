@@ -33,47 +33,11 @@
   $: copied = false;
   $: tooltip = 'Copy to Clipboard';
   $: tootltipColor = copied ? 'success' : 'info';
-  function copy(text) {
-      return new Promise((resolve, reject) => {
-          if (typeof navigator !== "undefined" && typeof navigator.clipboard !== "undefined" && navigator.permissions !== "undefined") {
-              const type = "text/plain";
-              const blob = new Blob([text], { type });
-              const data = [new ClipboardItem({ [type]: blob })];
-              navigator.permissions.query({name: "clipboard-write"}).then((permission) => {
-                  if (permission.state === "granted" || permission.state === "prompt") {
-                      navigator.clipboard.write(data).then(resolve).catch(reject);
-                        // .then (() => {
-                        //   // alert('Copied to clipboard');
-                        //   copied = true;
-                        //   tooltip = 'Copied!';
-                        //   resolve();
-                        // })
-                        // .catch((e) => {
-                        //   copied = false;
-                        //   tooltip = 'Failed to Copy Text';
-                        //   reject(e);
-                        //   alert("Error: ", e);
-                        //   console.log(e);
-                        // });
-                  }
-                  else {
-                      reject(new Error("Copy permission not granted!"));
-                  }
-              });
-              if (navigator.clipboard.readText() === output) {
-                copied = true;
-                tooltip = 'Copied!';
-              }
-          }
-          else {
-              alert("Error: ", e);
-              reject(new Error("None of copying methods are supported by this browser!"));
-          }
-      });
-  }
 
   function copyToClipboard(event) {
-    copy(output);
+    navigator.clipboard.writeText(output);
+    copied = true;
+    tooltip = 'Copied!';
   }
 
   $: persons = [];
@@ -126,9 +90,9 @@
 
     {#if output !== null}
       <div class="tooltip tooltip-{tootltipColor}" data-tip={tooltip}>
-        <div on:click={copyToClipboard} readonly>
+        <textarea on:click={copyToClipboard} class="w-60 m-2 rounded-md" readonly>
             {output}
-        </div>
+        </textarea>
       </div>
     {/if}
 
