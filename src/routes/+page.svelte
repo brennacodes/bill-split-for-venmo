@@ -63,7 +63,6 @@
     checked = (checked == '') ? 'checked' : '';
     isEvenSplit = checked === 'checked';
     splitType = isEvenSplit ? 'Even' : 'Uneven';
-    console.log('splitType: ', splitType);
     personPercent();
   }
 </script>
