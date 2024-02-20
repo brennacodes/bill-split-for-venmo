@@ -1,4 +1,5 @@
 <script>
+	import { afterUpdate } from 'svelte';
   import FluentNumberSymbol16Filled from '~icons/fluent/number-symbol-16-filled';
   import Fa6SolidSackDollar from '~icons/fa6-solid/sack-dollar';
   import FaSolidDivide from '~icons/fa-solid/divide';
@@ -65,6 +66,14 @@
     splitType = isEvenSplit ? 'Even' : 'Uneven';
     personPercent();
   }
+
+  afterUpdate(() => {
+    let textarea = document.getElementsByTagName('textarea')[0];
+    if (textarea) {
+      textarea.value = output;
+      textarea.value.trim();
+    }
+  })
 </script>
 
 <div class="container mx-auto prose">
@@ -89,9 +98,9 @@
     </div>
 
     {#if output !== null}
-      <div class="tooltip tooltip-{tootltipColor}" data-tip={tooltip}>
-        <textarea on:click={copyToClipboard} class="w-60 m-2 rounded-md" readonly>
-            {output}
+      <div class="tooltip tooltip-{tootltipColor} p-4" data-tip={tooltip}>
+        <textarea type="text" on:click={copyToClipboard} rows="1" class="w-60 text-center textarea textarea-bordered box-content h-min " readonly>
+            {output.trim()}
         </textarea>
       </div>
     {/if}
@@ -153,4 +162,8 @@
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
+
+  .textarea {
+    min-height: 1rem;
+  }
 </style>
