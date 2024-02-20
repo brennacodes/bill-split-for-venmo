@@ -109,8 +109,8 @@
       </label>
 
       <div class="form-control">
-        <label class="label cursor-pointer">
-          <span class="label-text">{splitType} Split</span>
+        <label class="label cursor-pointer flex justify-between items-center">
+          <h2 class="label-text m-0 underline underline-offset-2">{splitType} Split</h2>
           <input type="checkbox" class="toggle toggle-success" name="splitType" on:click={updateSplitType} bind:checked={checked}/>
         </label>
       </div>
