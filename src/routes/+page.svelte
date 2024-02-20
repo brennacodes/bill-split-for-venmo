@@ -17,8 +17,8 @@
 
   let checked = 'checked';
   $: splitTimes = null;
-  $: isEvenSplit = checked === 'checked';
-  $: splitType = isEvenSplit ? 'Even' : 'Uneven' ;
+  $: isEvenSplit = true;
+  $: splitType = 'Even';
   $: splitValue = ( billTotal / splitTimes );
 
   function generateOutput() {
@@ -60,14 +60,10 @@
   }
 
   function updateSplitType() {
-    console.log("********Updating Split Type!*********")
-    console.log('checked == "": ', checked == '');
     checked = (checked == '') ? 'checked' : '';
     isEvenSplit = checked === 'checked';
     splitType = isEvenSplit ? 'Even' : 'Uneven';
     console.log('splitType: ', splitType);
-    console.log('isEvenSplit: ', isEvenSplit);
-    console.log('checked: ', checked);
     personPercent();
   }
 </script>
@@ -121,16 +117,18 @@
       </div>
 
 
-      {#if isEvenSplit === false && splitType == 'Uneven'}
+      {#if (isEvenSplit === false) && (splitType === 'Uneven')}
         {#each persons as _, i}
           <label for="person{i}Percent" class="input input-bordered flex items-center gap-2">
             <GravityUiPercent class="w-4 h-4 opacity-70"/>
             <input type="number" id="person{i}Percent" class="grow" placeholder="Person {i + 1} Percentage" bind:value={persons[i]['percentage']} required on:change={updatePersonPercent(persons[i]['percentage'], i)}/>
+
             {#if !invalidNums.includes(persons[i]['amount'])}
               <div class="label">
                 <span class="label-text-alt">Person {i + 1} Owes: ${persons[i]['amount']}</span>
               </div>
             {/if}
+
           </label>
         {/each}
 
