@@ -10,17 +10,18 @@
   const invalidNums = [null, undefined, 0, Infinity, NaN, ''];
 
   $: bill = null;
+  $: customBill = null;
   $: billTotal = null;
   $: fromDate = null;
   $: throughDate = null;
   $: output = null;
-
 
   let checked = 'checked';
   $: splitTimes = null;
   $: isEvenSplit = true;
   $: splitType = 'Even';
   $: splitValue = ( billTotal / splitTimes );
+  $: billRemaining = null;
 
 
   function generateOutput() {
@@ -31,7 +32,11 @@
     let unixThroughTime = new Date(throughDate).getTime() + timezoneOffset;
     const formattedThroughDate = new Date(unixThroughTime).toDateString().split(' ').slice(1, 3).join(' ');
 
-    output = `${bill} ${formattedFromDate} - ${formattedThroughDate}`;
+    if (bill === '🤷‍♀️🤷🤷‍♂️') {
+      output = `${customBill} ${formattedFromDate} - ${formattedThroughDate}`;
+    } else {
+      output = `${bill} ${formattedFromDate} - ${formattedThroughDate}`;
+    }
   }
   $: if(fromDate !== null && throughDate !== null) {
     generateOutput();
@@ -61,9 +66,15 @@
     persons[i]['percentage'] = percentage;
     percentLeft -= percentage;
 
-    let amount = (billTotal * (percentage / 100));
-    persons[i]['amount'] = amount;
+    let amount = Number(billTotal * (percentage / 100));
+    persons[i]['amount'] = amount.toFixed(2);
+    console.log('persons[i][\'amount\']: ', persons[i]['amount']);
     totalTallied += amount;
+
+    console.log('totalTallied: ', totalTallied);
+    console.log('billTotal: ', billTotal);
+    billRemaining = (billTotal - totalTallied).toFixed(2);
+    console.log('billRemaining: ', billRemaining);
   }
 
   function updateSplitType() {
@@ -98,6 +109,13 @@
       </select>
     </div>
 
+    {#if bill === '🤷‍♀️🤷🤷‍♂️'}
+      <label for="customBill" class="input input-bordered flex items-center gap-2">
+        <MingcuteBillFill class="w-4 h-4 opacity-70"/>
+        <input type="text" id="customBill" class="grow" placeholder="Custom Bill" bind:value={customBill} required/>
+      </label>
+    {/if}
+
     <div class="flex flex-col gap-2">
       <label for="fromDate" class="input input-bordered flex items-center gap-2">Bill Start Date:
         <input type="date" class="grow" id="fromDate" placeholder="Bill Start Date" bind:value={fromDate} required/>
@@ -115,7 +133,6 @@
       </div>
     {/if}
 
-    <br>
     <div class="flex flex-col gap-2">
       <label for="billtotal" class="input input-bordered flex items-center gap-2">
         <Fa6SolidSackDollar class="w-4 h-4 opacity-70"/>
@@ -152,16 +169,16 @@
 
         <div class="text-warning">
           {#if percentLeft > 0}
-            <div>Percent Left: {percentLeft}%</div>
+            <div>Percent Unaccounted: {percentLeft}%</div>
           {/if}
-          {#if totalTallied !== billTotal}
-            <div>Remaining: ${(billTotal - totalTallied).toFixed(2)}</div>
+          {#if totalTallied !== billTotal.toFixed(2) && Number(billRemaining) > 0}
+            <div>Bill Remaining: ${billRemaining}</div>
           {/if}
         </div>
       {/if}
 
       {#if billTotal !== null && splitTimes !== null && !invalidNums.includes(billTotal) && !invalidNums.includes(splitTimes) && isEvenSplit === true}
-        <p>Each person pays: ${splitValue.toFixed(2)}</p>
+        <h2>Each person pays: ${splitValue.toFixed(2)}</h2>
       {/if}
     </div>
   </div>
