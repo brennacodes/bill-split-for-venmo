@@ -22,9 +22,15 @@
   $: splitType = 'Even';
   $: splitValue = ( billTotal / splitTimes );
 
+
   function generateOutput() {
-    const formattedFromDate = new Date(fromDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    const formattedThroughDate = new Date(throughDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    let timezoneOffset = new Date().getTimezoneOffset() * 60000;
+    let unixFromTime = new Date(fromDate).getTime() + timezoneOffset;
+    const formattedFromDate = new Date(unixFromTime).toDateString().split(' ').slice(1, 3).join(' ');
+
+    let unixThroughTime = new Date(throughDate).getTime() + timezoneOffset;
+    const formattedThroughDate = new Date(unixThroughTime).toDateString().split(' ').slice(1, 3).join(' ');
+
     output = `${bill} ${formattedFromDate} - ${formattedThroughDate}`;
   }
   $: if(fromDate !== null && throughDate !== null) {
@@ -85,6 +91,10 @@
       <select class="select select-bordered w-full max-w-xs" bind:value={bill} required>
         <option>⚡️🔌💡</option>
         <option>🗑️🚮</option>
+        <option>⛽️🚗🛣️</option>
+        <option>🍔🍟🍕</option>
+        <option>🍺🍻🍷</option>
+        <option>🤷‍♀️🤷🤷‍♂️</option>
       </select>
     </div>
 
