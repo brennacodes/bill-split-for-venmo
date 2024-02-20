@@ -132,14 +132,14 @@
           </label>
         {/each}
 
-        <p class="text-warning">
+        <div class="text-warning">
           {#if percentLeft > 0}
-            Percent Left: {percentLeft}%
+            <div>Percent Left: {percentLeft}%</div>
           {/if}
           {#if totalTallied !== billTotal}
-            Remaining: ${(billTotal - totalTallied).toFixed(2)}
+            <div>Remaining: ${(billTotal - totalTallied).toFixed(2)}</div>
           {/if}
-        </p>
+        </div>
       {/if}
 
       {#if billTotal !== null && splitTimes !== null && !invalidNums.includes(billTotal) && !invalidNums.includes(splitTimes) && isEvenSplit === true}
